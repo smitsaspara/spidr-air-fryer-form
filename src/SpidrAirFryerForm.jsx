@@ -67,7 +67,8 @@ const SpidrAirFryerForm = () => {
     }
   };
 
-  const completedFields = Object.values(formData).filter((value) => value.trim()).length;
+  // Calculate progress for the indicator
+  const completedFields = Object.values(formData).filter((value) => value.trim() && validateField(Object.keys(formData).find(key => formData[key] === value), value) === '').length;
   const totalFields = 6;
   const progressPercentage = (completedFields / totalFields) * 100;
 
@@ -77,95 +78,97 @@ const SpidrAirFryerForm = () => {
       <div className="progress-bar">
         <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
       </div>
-      <form onSubmit={handleSubmit} className="spidr-form">
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            placeholder="Enter your first name"
-            className={errors.firstName ? 'error' : ''}
-          />
-          {errors.firstName && <span className="error-message">{errors.firstName}</span>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            placeholder="Enter your last name"
-            className={errors.lastName ? 'error' : ''}
-          />
-          {errors.lastName && <span className="error-message">{errors.lastName}</span>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="phoneNumber">Phone Number</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-            placeholder="(123) 456-7890"
-            className={errors.phoneNumber ? 'error' : ''}
-          />
-          {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="you@example.com"
-            className={errors.email ? 'error' : ''}
-          />
-          {errors.email && <span className="error-message">{errors.email}</span>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="priceGuess">Guess the Air Fryer's Cost ($)</label>
-          <input
-            type="number"
-            id="priceGuess"
-            name="priceGuess"
-            value={formData.priceGuess}
-            onChange={handleChange}
-            required
-            placeholder="Enter your guess"
-            min="0"
-            step="0.01"
-            className={errors.priceGuess ? 'error' : ''}
-          />
-          {errors.priceGuess && <span className="error-message">{errors.priceGuess}</span>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="spidrPin">Spidr PIN</label>
-          <input
-            type="text"
-            id="spidrPin"
-            name="spidrPin"
-            value={formData.spidrPin}
-            onChange={handleChange}
-            required
-            placeholder="####-####-####-####"
-            className={errors.spidrPin ? 'error' : ''}
-          />
-          {errors.spidrPin && <span className="error-message">{errors.spidrPin}</span>}
-        </div>
-        <button type="submit" className="spidr-submit-button">Submit</button>
-      </form>
+      <div className="spidr-form-wrapper">
+        <form onSubmit={handleSubmit} className="spidr-form">
+          <div className="form-group">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              placeholder="Enter your first name"
+              className={errors.firstName ? 'error' : ''}
+            />
+            {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              placeholder="Enter your last name"
+              className={errors.lastName ? 'error' : ''}
+            />
+            {errors.lastName && <span className="error-message">{errors.lastName}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+              placeholder="(123) 456-7890"
+              className={errors.phoneNumber ? 'error' : ''}
+            />
+            {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="you@example.com"
+              className={errors.email ? 'error' : ''}
+            />
+            {errors.email && <span className="error-message">{errors.email}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="priceGuess">Guess the Air Fryer's Cost ($)</label>
+            <input
+              type="number"
+              id="priceGuess"
+              name="priceGuess"
+              value={formData.priceGuess}
+              onChange={handleChange}
+              required
+              placeholder="Enter your guess"
+              min="0"
+              step="0.01"
+              className={errors.priceGuess ? 'error' : ''}
+            />
+            {errors.priceGuess && <span className="error-message">{errors.priceGuess}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="spidrPin">Spidr PIN</label>
+            <input
+              type="text"
+              id="spidrPin"
+              name="spidrPin"
+              value={formData.spidrPin}
+              onChange={handleChange}
+              required
+              placeholder="####-####-####-####"
+              className={errors.spidrPin ? 'error' : ''}
+            />
+            {errors.spidrPin && <span className="error-message">{errors.spidrPin}</span>}
+          </div>
+          <button type="submit" className="spidr-submit-button">Submit</button>
+        </form>
+      </div>
       {showToast && (
         <div className="toast">Form submitted successfully! Check console for details.</div>
       )}
